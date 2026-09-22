@@ -8,6 +8,11 @@ using LocadoraCarros.Models;
 using LocadoraCarros.Models.Enums;
 using LocadoraCarros.Repository;
 using System.ComponentModel;
+using Microsoft.EntityFrameworkCore.Query;
+using LocadoraCarros.Model;
+using LocadoraCarrosBackEnd.Utils.constants;
+using LocadoraCarros.Models.Enums.Carro;
+using LocadoraCarrosBackEnd.Exceptions;
 
 namespace LocadoraLocacaos.Services
 {
@@ -58,33 +63,34 @@ namespace LocadoraLocacaos.Services
             var carro = await _carroRepository.GetById(dto.CarroId);
 
             if (carro == null)
-                return null;
+                throw new RegraNegocioException(
+                    LocacaoErrors.CarroNaoEncontrado);
             //throw new NullReferenceException("Não existe Cliente com esse id");
 
             var cliente = await _clienteRepository.GetById(dto.ClienteId);
 
             if (cliente == null)
-                return null;
+                throw new RegraNegocioException(
+                    LocacaoErrors.ClienteNaoEncontrado);
 
-            if (dto.DataInicio >= dto.DataFim)
-                throw new InvalidOperationException(
-                    "A data de início deve ser anterior à data de fim.");
+            ValidarPeriodo(dto.DataInicio, dto.DataFim);
 
-            var possuiLocacao = await _locacaoRepository.CarroPossuiLocacaoNoPeriodo(
-                dto.CarroId,
-                dto.DataInicio,
-                dto.DataFim);
+            var carroIndisponivel = StatusCarrosIndisponivel(carro) ||
+                await _locacaoRepository.CarroPossuiLocacaoNoPeriodo(
+                    dto.CarroId,
+                    dto.DataInicio,
+                    dto.DataFim);
 
-            if (possuiLocacao)
-                throw new InvalidOperationException(
-                    "Já existe uma locação para este carro nesse período.");
+            if (carroIndisponivel)
+                throw new RegraNegocioException(LocacaoErrors.CarroIndisponivel);
 
             var locacao = _mapper.Map<Locacao>(dto);
 
             locacao.Status = StatusLocacao.Reservada;
-
+            locacao.Cliente = cliente;
             // Guarda o preço praticado no momento da locação.
-            locacao.ValorDiaria = carro.ValorDiaria;
+            locacao.Carro = carro;
+            AtualizarPrecoLocacao(locacao);
 
             locacao = await _locacaoRepository.Add(locacao);
             await _locacaoRepository.SaveChangesAsync();
@@ -96,88 +102,72 @@ namespace LocadoraLocacaos.Services
         // ao fazer update deve-se deixar o valor fornecido 
 
         public async Task<ResponseLocacaoDto?> Update(
-    long id,
-    UpdateLocacaoDto dto)
+            long id,
+            UpdateLocacaoDto dto,
+            bool atualizarPreco)
         {
-            var locacao = await _locacaoRepository.GetById(id);
+            var locacao = await _locacaoRepository.GetById(
+                id,
+                includeCarro: true);
 
             if (locacao == null)
                 return null;
 
-
-
-            if (dto.DataInicio >= dto.DataFim)
-                throw new InvalidOperationException(
-                    "A data de início deve ser anterior à data de fim.");
-
-            var possuiLocacao = await _locacaoRepository.CarroPossuiLocacaoNoPeriodo(
+            ValidarPeriodo(dto.DataInicio, dto.DataFim);
+            var carroIndisponivel = StatusCarrosIndisponivel(locacao.Carro) ||
+                await _locacaoRepository.CarroPossuiLocacaoNoPeriodo(
                 locacao.CarroId,
                 dto.DataInicio,
                 dto.DataFim,
                 id);
 
-            if (possuiLocacao)
-                throw new InvalidOperationException(
-                    "Já existe uma locação para este carro nesse período.");
+
+            if (carroIndisponivel)
+                throw new RegraNegocioException(
+                    LocacaoErrors.CarroIndisponivel);
+
 
             locacao.DataInicio = dto.DataInicio;
             locacao.DataFim = dto.DataFim;
+            if (dto.DataDevolucao != null)
+            {
+                ValidarPeriodo(dto.DataInicio, dto.DataDevolucao.Value);//validação talvez deva mudar o texto do erro
+                locacao.DataDevolucao = dto.DataDevolucao;
+            }
+            //pode ser usar o metodo
+            if (!PodeAlterarStatus(locacao.Status, dto.Status))
+                throw new RegraNegocioException(
+                    LocacaoErrors.MudancaStatusIvalida);
+
+            locacao.Status = dto.Status;
+
+            if (atualizarPreco)
+            {
+                AtualizarPrecoLocacao(locacao);
+            }
 
             locacao = await _locacaoRepository.Update(locacao);
             await _locacaoRepository.SaveChangesAsync();
 
             return _mapper.Map<ResponseLocacaoDto>(locacao);
+            
         }
 
-        /*
-                public async Task<ResponseLocacaoDto?> Update(long id,
-                UpdateLocacaoDto dto)
+        private void AtualizarPrecoLocacao(Locacao locacao)
+        {
+            var quantidadeDias = (locacao.DataFim - locacao.DataInicio).Days+1;
 
-                {
-                    var locacao = await _locacaoRepository.GetById(id);
+            locacao.ValorDiaria = locacao.Carro.ValorDiaria;
+            locacao.ValorTotal = locacao.ValorDiaria * quantidadeDias;
+        }
 
-                    if (locacao == null)
-                    {
-                        return null;
-                    }
-                    locacao = _mapper.Map(dto, locacao);
-
-
-                    var naoAlugar = await _locacaoRepository.CarroPossuiLocacaoNoPeriodo(locacao.CarroId,locacao.DataInicio,locacao.DataFim,id);
-                    if (naoAlugar)
-                    {
-                        throw new InvalidOperationException("Já existe uma locação nesse periodo");
-                    }
-                    locacao = await _locacaoRepository.Update(locacao);
-                    await _locacaoRepository.SaveChangesAsync();
-                    return _mapper.Map<ResponseLocacaoDto>(locacao);
-                }
-        */
-        //antigo para update
-
-        //verificar se o carro está disponivel no horarrio
-
-        //pode ser passado para um metodo auxiliar
-        //NÃO é necessario atualizar carro
-        /*            if(locacao.Status != StatusLocacao.Reservada)
-                    { 
-                        var carro = await _carroRepository.GetById(locacao.CarroId);
-                   if (locacao.Status == StatusLocacao.Ativa)
-                        {
-
-                        }
-
-                    }*/
-
-        /*            if (locacao.Status != StatusLocacao.Ativa &&!(await CarroDisponivel(locacao)))
-                    {
-                        //melhor lancar um erro
-                        //throw carro indisponivel
-                        return null ;
-                    }*/
-
-        //fim antigo para update
-
+        private void ValidarPeriodo(DateTime dataInicio, DateTime dataFim)
+        {
+            if (dataInicio >= dataFim)
+            {
+                throw new RegraNegocioException(LocacaoErrors.PeriodoInvalido);
+            }
+        }
 
         public async Task<ResponseLocacaoDto> DeleteById(long id)
         {
@@ -212,11 +202,12 @@ namespace LocadoraLocacaos.Services
 
             if (locacao == null)
                 return null;
-
-/*            // Regras de transição de status
+            
+            // Regras de transição de status
             if (!PodeAlterarStatus(locacao.Status, novoStatus))
-                throw new InvalidOperationException(
-                    "Não é possível realizar essa alteração de status.");*/
+                throw new RegraNegocioException(
+                    LocacaoErrors.MudancaStatusIvalida);
+
 
             locacao.Status = novoStatus;
 
@@ -226,7 +217,23 @@ namespace LocadoraLocacaos.Services
             return _mapper.Map<ResponseLocacaoDto>(locacao);
         }
 
+        private bool PodeAlterarStatus(StatusLocacao statusAtual, StatusLocacao statusNovo)
+        {
+           switch (statusNovo)
+            {
+                case StatusLocacao.Cancelada:
+                    return statusAtual == StatusLocacao.Reservada ||
+                           statusAtual == StatusLocacao.Ativa;
+                case StatusLocacao.Finalizada:
+                    return statusAtual == StatusLocacao.Ativa;
+                default: 
+                    return true;
+            }
+        }
+        private bool StatusCarrosIndisponivel(Carro carro)
+        {
+            return carro.Status != StatusCarro.Disponivel;
 
-
+        }
     }
 }

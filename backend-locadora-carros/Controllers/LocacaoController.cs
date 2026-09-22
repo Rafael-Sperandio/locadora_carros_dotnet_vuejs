@@ -65,39 +65,27 @@ namespace LocadoraLocacaos.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateLocacaoDto model)
         {
-            try
-            {
-                var locacao = await _locacaoService.Create(model);
+
+            var locacao = await _locacaoService.Create(model);
 
             if (locacao == null)//quando não possui carro ou cliente
                     return NotFound("Cliente ou carro não encontrado.");
                 return Ok(locacao);
 
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Conflict(ex.Message);
-            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(
             long id,
-            UpdateLocacaoDto model)
+            UpdateLocacaoDto model,
+            [FromQuery] bool atualizarPreco = false)
         {
-            try
-            {
-                var locacao = await _locacaoService.Update(id, model);
+            var locacao = await _locacaoService.Update(id, model, atualizarPreco);
 
-                if (locacao == null)
-                    return NotFound("Cliente ou carro não encontrado.");
+            if (locacao == null)
+                return NotFound("Cliente ou carro não encontrado.");
 
-                return Ok(locacao);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Conflict(ex.Message);
-            }
+            return Ok(locacao);
         }
 
         [HttpPut("finalize/{id}")]

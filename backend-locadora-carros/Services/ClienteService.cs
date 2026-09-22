@@ -29,7 +29,6 @@ namespace LocadoraCarros.Services
             var cliente = await _clienteRepository.GetById(id);
             return _mapper.Map<ResponseClienteDto>(cliente); 
         }
-
         
         public async Task<ResponseClienteDto?> Create(CreateClienteDto dto)
         {
@@ -38,7 +37,6 @@ namespace LocadoraCarros.Services
             await _clienteRepository.SaveChangesAsync();
             return _mapper.Map<ResponseClienteDto>(cliente);
         }
-
 
         public async Task<ResponseClienteDto?> Update(long id,
         UpdateClienteDto dto)
@@ -57,8 +55,6 @@ namespace LocadoraCarros.Services
             await _clienteRepository.SaveChangesAsync();
             return _mapper.Map<ResponseClienteDto>(cliente);
         }
-
-
 
         public async Task<ResponseClienteDto> DeleteById(long id)
         {

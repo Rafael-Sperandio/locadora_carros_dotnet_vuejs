@@ -4,6 +4,7 @@ using LocadoraCarros.Repository;
 using LocadoraCarros.Repository.Interface;
 using LocadoraCarros.Services;
 using LocadoraCarros.Services.Interface;
+using LocadoraCarrosBackEnd.Middleware;
 using LocadoraLocacaos.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -61,6 +62,8 @@ namespace LocadoraCarros
                     )
                 );
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
             // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();

@@ -17,9 +17,9 @@ namespace LocadoraCarros.Services.Interface
 
         Task<ResponseLocacaoDto?> Create(CreateLocacaoDto dto);
 
-        Task<ResponseLocacaoDto?> Update(long id, UpdateLocacaoDto dto);
+        Task<ResponseLocacaoDto?> Update(long id, UpdateLocacaoDto dto,bool atualizarPreco);
 
-        //regra para deletar apenas locacao canceladas ou finalziadas
+        //TODO talvez regra para deletar apenas locacao canceladas ou finalziadas
         Task<ResponseLocacaoDto> DeleteById(long id);
 
         Task<ResponseLocacaoDto?> SetStatusCancelar(long id);

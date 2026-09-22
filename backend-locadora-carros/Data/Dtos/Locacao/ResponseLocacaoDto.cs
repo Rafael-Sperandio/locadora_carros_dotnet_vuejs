@@ -2,6 +2,8 @@
 using LocadoraCarros.Model;
 using System.ComponentModel.DataAnnotations.Schema;
 using LocadoraCarros.Models.Enums;
+using LocadoraCarros.Data.Dtos.Cliente;
+using LocadoraCarros.Data.Dtos.Carro;
 
 namespace LocadoraCarros.Data.Dtos.Locacao
 {
@@ -25,6 +27,10 @@ namespace LocadoraCarros.Data.Dtos.Locacao
 
         public decimal ValorTotal { get; set; }
         public StatusLocacao Status { get; set; }
+
+        public ResponseClienteDto? Cliente { get; set; }
+
+        public ResponseCarroDto? Carro { get; set; }
 
     }
 }

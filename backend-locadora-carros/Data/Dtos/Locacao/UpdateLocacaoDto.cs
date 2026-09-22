@@ -24,11 +24,15 @@ namespace LocadoraCarros.Data.Dtos.Locacao
 
         public DateTime? DataDevolucao { get; set; }
 
+/*
         public decimal ValorDiaria { get; set; }
 
         public decimal ValorTotal { get; set; }
+*/
 
         public StatusLocacao Status { get; set; }
+
+       // public bool Atualizarvalor
 
     }
 }

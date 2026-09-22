@@ -17,13 +17,35 @@ namespace LocadoraCarros.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Locacao>> GetAll()
+        public async Task<IEnumerable<Locacao>> GetAll(
+            bool includeCarro = false, 
+            bool includeCliente = false)
         {
-            return await _context.Locacoes.ToListAsync();
+            var query = _context.Locacoes.AsQueryable();
+
+            if (includeCarro)
+                query = query.Include(l => l.Carro);
+
+            if (includeCliente)
+                query = query.Include(l => l.Cliente);
+
+            return await query.ToListAsync();
         }
-        public async Task<Locacao?> GetById(long id)
+
+        public async Task<Locacao?> GetById(
+            long id,
+            bool includeCarro = false,
+            bool includeCliente = false)
         {
-            return await _context.Locacoes.FindAsync(id);
+            var query = _context.Locacoes.AsQueryable();
+
+            if (includeCarro)
+                query = query.Include(l => l.Carro);
+
+            if (includeCliente)
+                query = query.Include(l => l.Cliente);
+
+            return await query.FirstOrDefaultAsync(l => l.id == id);
         }
 
         public async Task<IEnumerable<Locacao>> GetByCarro(long carroId)
@@ -38,8 +60,6 @@ namespace LocadoraCarros.Repository
         }
 
 
-        //verifica se exite alguma locacao nao StatusLocacao.Finalizada ou StatusLocacao.Cancelada
-        // que a 
         public async Task<bool> CarroPossuiLocacaoNoPeriodo(
             long carroId,
             DateTime inicio,
@@ -52,10 +72,8 @@ namespace LocadoraCarros.Repository
                 && l.Status != StatusLocacao.Cancelada)
                 &&(inicio <= l.DataFim
                 && fim >= l.DataInicio)
-                &&(locacaoId == null ||
-                (locacaoId != null 
-                && l.id != locacaoId))
-           ).Any();
+                &&(locacaoId == null || l.id != locacaoId)
+            ).Any();
         }
 
 
