@@ -1,7 +1,7 @@
 <template>
   <div class="container">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-center align-items-center mb-4">
 
       <h1>Carros</h1>
 
