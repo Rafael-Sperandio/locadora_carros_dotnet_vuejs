@@ -54,7 +54,7 @@ namespace LocadoraLocacaos.Controllers
         [HttpGet("cliente/{clienteid}")]
         public async Task<IActionResult> GetByClienteId(long clienteid)
         {
-            var locacaos = await _locacaoService.GetByCliente(clienteid);
+            var locacaos = await _locacaoService.GetByCliente   (clienteid);
 
             if (locacaos==null || !locacaos.Any())
                 return NoContent();

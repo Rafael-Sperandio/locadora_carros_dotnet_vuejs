@@ -9,7 +9,7 @@
 
 </template>
 
-<script>
+<script >
 import navBar from './components/NavComponent.vue'
 //import HelloWorld from './components/HelloWorld.vue'
 export default {

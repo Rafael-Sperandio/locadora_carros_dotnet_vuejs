@@ -18,9 +18,12 @@
       Categoria
       Status
     -->
+    <h2>lista carros</h2>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="mb-3"  v-for="(carro,index) in listaCarros" :key="index">
 
-    <div class="mt-3">
-
+            <CarroDetalhe :carro="carro"></CarroDetalhe>
+        </div>
       <!-- Componente: Tabela de Carros -->
 
       <!--
@@ -43,5 +46,33 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts">
+import CarroDetalhe from '../components/carro/CarroDetalhe.vue'
+import apiCarros from "../services/carroService"
+
+import type { Carro } from '../types/Carro/Carro'
+
+
+export default {
+  components:{
+    CarroDetalhe,
+  },
+  data() {
+    return {
+      listaCarros: [] as Carro[]
+    }
+  },
+
+  created() {
+    this.buscaCarros()
+  },
+
+  methods: {
+    async buscaCarros(): Promise<void> {
+      const carros = await apiCarros.getAll()
+
+      this.listaCarros = carros
+    }
+  }
+}
 </script>

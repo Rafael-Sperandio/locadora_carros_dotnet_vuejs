@@ -48,6 +48,19 @@ namespace LocadoraCarros
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("VueFrontend", policy =>
+                {
+                    policy
+                        .WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    //"http://localhost:5173"
+                    //"http://localhost:8080"
+                });
+            });
+
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
             {
@@ -67,6 +80,8 @@ namespace LocadoraCarros
             // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();
+
+            app.UseCors("VueFrontend");
 
             app.UseAuthorization();
 
