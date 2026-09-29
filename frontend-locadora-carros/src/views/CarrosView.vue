@@ -3,12 +3,26 @@
 
     <div class="d-flex justify-content-center align-items-center mb-4">
 
-      <h1>Carros</h1>
-
-      <!-- Componente: Botão Novo Carro -->
+      <h1>Carros disponiveis</h1>
 
     </div>
+    <div class="d-flex gap-4 w-80 flitro">
+        <input type="text" class="form-control">
 
+        <select class="form-select">
+            <option>Marca</option>
+            <option>Modelo</option>
+        </select>
+
+        <select class="form-select">
+            <option>Categoria</option>
+            <option>SUV</option>
+        </select>
+
+        <button class="btn btn-primary">
+            Buscar
+        </button>
+    </div>
     <!-- Componente: Filtro de Carros -->
     <!--
       Possíveis filtros:
@@ -51,7 +65,7 @@ import CarroDetalhe from '../components/carro/CarroDetalhe.vue'
 import apiCarros from "../services/carroService"
 
 import type { Carro } from '../types/Carro/Carro'
-
+//background-color: var(--color-navbar) ;
 
 export default {
   components:{
@@ -76,3 +90,20 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.flitro{
+  background-color: var(--color-navbar);
+  padding: var(--spacing-sm);
+  border:  var(--radius-xs) solid var(--color-primary);
+  //var(--radius-xs)
+  border-radius: var(--radius-sm);
+}
+.adicionar-bnt{
+  background-color: var(--color-navbar) ;
+
+}
+.adicionar-bnt:hover{
+  background-color: var(--color-navbar);
+}
+</style>

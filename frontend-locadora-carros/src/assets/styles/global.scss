@@ -6,13 +6,13 @@
   // ==============================
 
   --color-navbar: #{$color-navbar};
-  --color-background: #{$color-background};
+  --color-background: #{$color-secondary};
 
   --color-text-primary: #{$color-text-primary};
   --color-text-secondary: #{$color-text-secondary};
 
   --color-primary: #{$color-primary};
-  --color-secondary: #{$color-secondary};
+  --color-secondary: #{$color-background};
 
   --color-brand: #{$color-brand};
 
@@ -38,7 +38,8 @@
   // ==============================
   // Border Radius
   // ==============================
-
+  --radius-xss: #{$radius-xxs};
+  --radius-xs: #{$radius-xs};
   --radius-sm: #{$radius-sm};
   --radius-md: #{$radius-md};
   --radius-lg: #{$radius-lg};
