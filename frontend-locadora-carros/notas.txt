@@ -1,0 +1,30 @@
+
+titulo Nova Locação
+
+cabeçalho etapas
+1. Selecionar Carro
+2. Período da Locação 
+3. Confirmação
+
+AREA CARRO SELECIONADO
+CARRO SELECIONADO
+Jeep Compass SUV 2024
+DISPONÍVEL
+SUV Premium
+R$ 210,00/dia
+
+Area Definir Período
+Definir Período
+Data de Início (Retirada)       Data de Fim (Devolução)
+24/10/2024                      29/10/2024
+Local de Retirada / Devolução
+Aeroporto de Congonhas (Saguão Central)
+
+Area Resumo da Nova Locação
+Resumo da Nova Locação
+Período de locação total:       5 Dias   
+Diárias (5x R$ 210,00):         R$ 1.050,00
+Taxas de Serviço:               Isento
+Total estimado:                 R$ 1.050,00
+
+botão Confirmar Locação         botão Voltar

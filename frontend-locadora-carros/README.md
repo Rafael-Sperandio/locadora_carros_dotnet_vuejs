@@ -21,7 +21,7 @@ npm install vue-router
 npm install bootstrap@5.3.8
 npm install -D sass sass-loader
 npm install axios
-
+npm install @vuepic/vue-datepicker
 ### Compiles and hot-reloads for development
 ```
 npm run dev

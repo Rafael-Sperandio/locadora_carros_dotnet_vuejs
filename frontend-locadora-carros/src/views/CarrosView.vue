@@ -36,22 +36,8 @@
     <div class="d-flex flex-column justify-content-center align-items-center">
         <div class="mb-3"  v-for="(carro,index) in listaCarros" :key="index">
 
-            <CarroDetalhe :carro="carro"></CarroDetalhe>
+            <CarroCard :carro="carro"></CarroCard>
         </div>
-      <!-- Componente: Tabela de Carros -->
-
-      <!--
-        Sugestão de colunas:
-
-        Marca
-        Modelo
-        Ano
-        Placa
-        Categoria
-        Valor da diária
-        Status
-        Ações
-      -->
 
     </div>
 
@@ -60,36 +46,33 @@
   </div>
 </template>
 
-<script lang="ts">
-import CarroDetalhe from '../components/carro/CarroDetalhe.vue'
-import apiCarros from "../services/carroService"
+
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
+import CarroCard from '../components/carro/CarroCard.vue'
+import carroService from '../services/carroService'
 
 import type { Carro } from '../types/Carro/Carro'
-//background-color: var(--color-navbar) ;
 
-export default {
-  components:{
-    CarroDetalhe,
-  },
-  data() {
-    return {
-      listaCarros: [] as Carro[]
-    }
-  },
+const listaCarros = ref<Carro[]>([])
 
-  created() {
-    this.buscaCarros()
-  },
+async function buscaCarros(): Promise<void> {
+  try {
+    const carros = await carroService.getAll()
 
-  methods: {
-    async buscaCarros(): Promise<void> {
-      const carros = await apiCarros.getAll()
-
-      this.listaCarros = carros
-    }
+    listaCarros.value = carros
+  } catch (error) {
+    console.error('Erro ao buscar carros:', error)
   }
 }
+
+onMounted(() => {
+  buscaCarros()
+})
 </script>
+
+
 
 <style scoped lang="scss">
 .flitro{
