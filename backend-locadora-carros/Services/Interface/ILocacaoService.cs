@@ -9,11 +9,11 @@ namespace LocadoraCarros.Services.Interface
 
         Task<IEnumerable<ResponseLocacaoDto>> GetAll();
         
-        Task<ResponseLocacaoDto> GetById(long id);
+        Task<ResponseLocacaoDto> GetById(long id, bool includeCarro, bool includeCliente);
 
-        Task<IEnumerable<ResponseLocacaoDto>> GetByCliente(long clienteId);
+        Task<IEnumerable<ResponseLocacaoDto>> GetByCliente(long clienteId, bool includeCarro, bool includeCliente);
 
-        Task<IEnumerable<ResponseLocacaoDto>> GetByCarro(long carroId);
+        Task<IEnumerable<ResponseLocacaoDto>> GetByCarro(long carroId, bool includeCarro , bool includeCliente);
 
         Task<ResponseLocacaoDto?> Create(CreateLocacaoDto dto);
 

@@ -29,11 +29,18 @@ namespace LocadoraLocacaos.Controllers
             return Ok(locacaos);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(long id)
-        {
-            var locacao = await _locacaoService.GetById(id);
+        // exemplo /api/Locacao/10?includeCarro=true
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(
+            long id,
+            bool includeCarro = false,
+            bool includeCliente = false)
+        {
+            var locacao = await _locacaoService.GetById(
+                id,
+                includeCarro,
+                includeCliente);
             if (locacao == null)
                 return NotFound();
 
@@ -41,9 +48,11 @@ namespace LocadoraLocacaos.Controllers
         }
 
         [HttpGet("carro/{carroid}")]
-        public async Task<IActionResult> GetByCarroId(long carroid)
+        public async Task<IActionResult> GetByCarroId(long carroid, bool includeCarro = false, bool includeCliente = false)
         {
-            var locacaos = await _locacaoService.GetByCarro(carroid);
+            var locacaos = await _locacaoService.GetByCarro(carroid, 
+                includeCarro: includeCarro, 
+                includeCliente: includeCliente);
 
             if (locacaos == null || !locacaos.Any())
                 return NoContent();
@@ -52,9 +61,11 @@ namespace LocadoraLocacaos.Controllers
         }
 
         [HttpGet("cliente/{clienteid}")]
-        public async Task<IActionResult> GetByClienteId(long clienteid)
+        public async Task<IActionResult> GetByClienteId(long clienteid, bool includeCarro = false,bool includeCliente = false)
         {
-            var locacaos = await _locacaoService.GetByCliente   (clienteid);
+            var locacaos = await _locacaoService.GetByCliente(clienteid,
+                includeCarro:includeCarro,
+                includeCliente:includeCliente);
 
             if (locacaos==null || !locacaos.Any())
                 return NoContent();

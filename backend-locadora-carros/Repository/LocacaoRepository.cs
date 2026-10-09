@@ -48,15 +48,31 @@ namespace LocadoraCarros.Repository
             return await query.FirstOrDefaultAsync(l => l.id == id);
         }
 
-        public async Task<IEnumerable<Locacao>> GetByCarro(long carroId)
+        public async Task<IEnumerable<Locacao>> GetByCarro(long carroId, bool includeCarro = false, bool includeCliente = false)
         {
             //precisa do await?
-            return await _context.Locacoes.Where(l => l.CarroId == carroId).ToListAsync();
+            var query = _context.Locacoes.Where(l => l.CarroId == carroId).AsQueryable();
+
+            if (includeCarro)
+                query = query.Include(l => l.Carro);
+
+            if (includeCliente)
+                query = query.Include(l => l.Cliente);
+
+            return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Locacao>> GetByCliente(long clienteId)
+        public async Task<IEnumerable<Locacao>> GetByCliente(long clienteId, bool includeCarro = false, bool includeCliente = false)
         {
-            return await _context.Locacoes.Where(l => l.ClienteId == clienteId).ToListAsync();
+            var query = _context.Locacoes.Where(l => l.ClienteId == clienteId).AsQueryable();
+
+            if (includeCarro)
+                query = query.Include(l => l.Carro);
+
+            if (includeCliente)
+                query = query.Include(l => l.Cliente);
+
+            return await query.ToListAsync();
         }
 
 

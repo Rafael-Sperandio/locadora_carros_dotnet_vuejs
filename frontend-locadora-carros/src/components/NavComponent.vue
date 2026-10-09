@@ -15,7 +15,7 @@
                 </li>
 
                 <li class="nav-item active">
-                    <RouterLink  class="nav-link" to="/locacoes">Locações</RouterLink>
+                    <RouterLink  class="nav-link" to="/minhas-locacoes">MinhasLocações</RouterLink>
                 </li>
                 
             </ul>

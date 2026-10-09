@@ -40,21 +40,21 @@ namespace LocadoraLocacaos.Services
             return _mapper.Map<IEnumerable<ResponseLocacaoDto>>(locacaos);
         }
 
-        public async Task<ResponseLocacaoDto> GetById(long id)
+        public async Task<ResponseLocacaoDto> GetById(long id, bool includeCarro, bool includeCliente)
         {
-            var locacao = await _locacaoRepository.GetById(id);
+            var locacao = await _locacaoRepository.GetById(id,includeCarro: includeCarro, includeCliente:includeCliente);
             return _mapper.Map<ResponseLocacaoDto>(locacao); ;
         }
 
-        public async Task<IEnumerable<ResponseLocacaoDto>> GetByCliente(long clienteId)
+        public async Task<IEnumerable<ResponseLocacaoDto>> GetByCliente(long clienteId, bool includeCarro, bool includeCliente)
         {
-            var locacaos = await _locacaoRepository.GetByCarro(clienteId);
+            var locacaos = await _locacaoRepository.GetByCliente(clienteId, includeCarro, includeCliente);
             return _mapper.Map<IEnumerable<ResponseLocacaoDto>>(locacaos);
         }
 
-        public async Task<IEnumerable<ResponseLocacaoDto>> GetByCarro(long carroId)
+        public async Task<IEnumerable<ResponseLocacaoDto>> GetByCarro(long carroId, bool includeCarro, bool includeCliente)
         {
-            var locacaos = await _locacaoRepository.GetByCarro(carroId);
+            var locacaos = await _locacaoRepository.GetByCarro(carroId, includeCarro, includeCliente);
             return _mapper.Map<IEnumerable<ResponseLocacaoDto>>(locacaos);
         }
 

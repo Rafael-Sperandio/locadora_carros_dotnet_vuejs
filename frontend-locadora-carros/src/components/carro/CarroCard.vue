@@ -4,27 +4,24 @@
     class="card-img-top" 
     alt="...">
     <div class="card-header ">
-      <h5 class="card-title ">
-        {{ carro.marca }}
-      </h5>
-      <h5 class="card-text">
-        {{ carro.marca }} {{ carro.modelo }}
-      </h5>
+      <div class="d-flex column justify-content-between align-items-center">
+        <h5 class="card-text mb-0" style="font-size: 20px;">
+          {{ carro.marca }} {{ carro.modelo }}
+        </h5>
+        <h5 class="card-text gap-1 d-flex">
+          <span class="badge text-bg-primary d-flex align-items-center">{{ carro.categoria }} </span>
+          <span class="badge text-bg-primary d-flex align-items-center">{{ carro.ano }}</span>
+        </h5> 
+      </div>
+
     </div>
     <div class="card-body ">
 
-      <h5 class="card-title ">
-        informações
-      </h5>
-      <h5 class="card-text">
-        {{ carro.categoria }} - {{ carro.ano }} - {{ carro.placa }}
-      </h5>
       
       <h5 class="card-title" >Valor diário:</h5>
       <h5 class="card-text">
          R$ {{ carro.valorDiaria }} /dia
       </h5>
-      <h5> carro id {{ carro.id }}</h5>
       <router-link
         :to="`/carros/${carro.id}`"
         class="btn btn-primary w-100"

@@ -1,30 +1,41 @@
 
-titulo Nova Locação
+TODO: bugs
+bug ao usar o metodo finalize da controler na locacao id=1
+bug ao mostrar valor das minha locacao algumas aparecem zeradas
 
-cabeçalho etapas
-1. Selecionar Carro
-2. Período da Locação 
-3. Confirmação
 
-AREA CARRO SELECIONADO
-CARRO SELECIONADO
-Jeep Compass SUV 2024
-DISPONÍVEL
-SUV Premium
-R$ 210,00/dia
+rota backend locacao/cliente/id
 
-Area Definir Período
-Definir Período
-Data de Início (Retirada)       Data de Fim (Devolução)
-24/10/2024                      29/10/2024
-Local de Retirada / Devolução
-Aeroporto de Congonhas (Saguão Central)
+telhas detalhes locacao
 
-Area Resumo da Nova Locação
-Resumo da Nova Locação
-Período de locação total:       5 Dias   
-Diárias (5x R$ 210,00):         R$ 1.050,00
-Taxas de Serviço:               Isento
-Total estimado:                 R$ 1.050,00
 
-botão Confirmar Locação         botão Voltar
+criar type response locacao
+criar service locacao
+
+    TODO    criar tela detalhes locacao 
+
+
+criar rota routervue  tela minhas locacao
+tela minhas locacao
+titulo Minhas Locações
+subtitulo Acompanhe o andamento de seus contratos, faturas, retiradas e devoluções.
+
+div para filtra locação Todas Ativas Finalizadas Canceladas
+tabela de locação colunas
+CONTRATO(id)
+VEÍCULO
+
+RETIRADA
+DEVOLUÇÃO
+VALOR TOTAL
+STATUS
+AÇÕES
+
+exemplo de informações para as colunas
+1 
+Toyota Corolla Sedan 2024
+20 Out 2024
+25 Out 2024
+R$ 750,00
+ATIVA
+Ver Detalhes

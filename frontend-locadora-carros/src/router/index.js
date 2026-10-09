@@ -5,8 +5,9 @@ import ClientesView from '../views/ClientesView.vue'
 import CarrosView from '../views/CarrosView.vue'
 import CarroDetalhesView from '../views/CarroDetalhesView.vue'
 import CarroLocacaoView from '../views/CarroLocacaoView.vue'
-import LocacoesView from '../views/LocacoesView.vue'
 import ConfirmacaoLocacao from '../views/ConfirmacaoLocacao.vue'
+import MinhasLocacoesView from '../views/PaginasIniciasCliente/MinhasLocacoesView.vue'
+import DetalhesLocacaoView from '../views/Detalhes/DetalhesLocacaoView.vue';
 const routes = [
     {
         path: '/',
@@ -39,9 +40,14 @@ const routes = [
         component: ConfirmacaoLocacao
     },  
     {
-        path: '/locacoes',
-        name: 'locacoes',
-        component: LocacoesView
+        path: '/minhas-locacoes',
+        name: 'MinhasLocacoes',
+        component: MinhasLocacoesView
+    },
+    {
+        path: '/locacoes/:id',
+        name: 'DetalhesLocacao',
+        component: DetalhesLocacaoView
     }
 ]
 

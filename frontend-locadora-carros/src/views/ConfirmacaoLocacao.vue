@@ -213,30 +213,24 @@ export default {
   },
 
   computed: {
+ 
     quantidadeDiasLocacao(): number {
-    if (!this.locacao) return 0;
-      console.log('locacao.dataInicio:', this.locacao.dataInicio);
-      console.log('locacao.dataFim:', this.locacao.dataFim);
-      console.log('quantidadeDias:', quantidadeDias(
+      if (!this.locacao) return 0;
+      return quantidadeDias(
         this.locacao.dataInicio,
         this.locacao.dataFim
-      )); 
-    return quantidadeDias(
-      this.locacao.dataInicio,
-      this.locacao.dataFim
-    );
+      );
+    },
+
+    valorTotalLocacao(): number {
+      if (!this.locacao) return 0;
+
+      return valorTotal(
+        this.quantidadeDiasLocacao,
+        this.locacao.carro.valorDiaria
+      );
+    }
   },
-
-  valorTotalLocacao(): number {
-    if (!this.locacao) return 0;
-
-    return valorTotal(
-      this.quantidadeDiasLocacao,
-      this.locacao.carro.valorDiaria
-    );
-  }
-  },
-
   mounted() {
     this.carregarLocacao();
   },

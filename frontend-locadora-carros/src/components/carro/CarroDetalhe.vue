@@ -87,7 +87,7 @@
               </div>
             </div>
             <!-- Ações -->
-            <div class="d-flex gap-2">
+            <div v-if="acaoVisivel" class="d-flex gap-2">
               <button
                 type="button"
                 class="btn btn-outline-secondary"
@@ -125,6 +125,10 @@ export default {
     carro: {
       type: Object as () => Carro,
       required: true
+    },
+    acaoVisivel: {
+      type: Boolean,
+      default: true
     }
   },
 

@@ -8,9 +8,9 @@ namespace LocadoraCarros.Repository.Interface
 
         Task<Locacao?> GetById(long id, bool includeCarro = false, bool includeCliente = false);
 
-        Task<IEnumerable<Locacao>> GetByCliente(long clienteId);
+        Task<IEnumerable<Locacao>> GetByCliente(long clienteId, bool includeCarro = false, bool includeCliente = false);
 
-        Task<IEnumerable<Locacao>> GetByCarro(long carroId);
+        Task<IEnumerable<Locacao>> GetByCarro(long carroId, bool includeCarro = false, bool includeCliente = false);
 
         //forneca o locacaoId em caso de atualização para ser ignorado
         Task<bool> CarroPossuiLocacaoNoPeriodo(

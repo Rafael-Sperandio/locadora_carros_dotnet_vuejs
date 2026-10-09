@@ -7,7 +7,7 @@ function dateToString(data: Date): string {
   return `${dia}/${mes}/${ano}`;
 }
 
-function converterParaData(data: string | Date): Date | null {
+function converterParaData(data: Date | string): Date | null {
   if (data instanceof Date) {
     return new Date(
       data.getFullYear(),
@@ -15,9 +15,8 @@ function converterParaData(data: string | Date): Date | null {
       data.getDate()
     );
   }
-  data = data.replace('-', '/');
+  data = data?.replace('-', '/');
   const [dia, mes, ano] = data.split('/').map(Number);
-
   if (!ano || !mes || !dia) {
     return null;
   }
@@ -25,7 +24,7 @@ function converterParaData(data: string | Date): Date | null {
   return new Date(ano, mes, dia);
 }
 
-export function formatarData(data: string|Date): string {
+export function formatarData(data: string|Date|null): string {
   if (!data) return '';
 
   const [dia, mes, ano] = (typeof data === 'string' 
@@ -50,8 +49,8 @@ export function formatarMoeda(valor: number): string {
 }
 
 export function quantidadeDias(
-  dataInicio: string | Date,
-  dataFim: string | Date
+  dataInicio: Date|null,
+  dataFim: Date|null
 ): number {
   if (!dataInicio || !dataFim) return 0;
   const inicio = converterParaData(dataInicio);
