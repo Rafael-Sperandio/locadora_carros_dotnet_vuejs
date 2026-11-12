@@ -9,7 +9,7 @@ namespace LocadoraCarros.Data.Dtos.Locacao
     {
         public CreateLocacaoDto() { }
 
-        public long ClienteId { get; set; }
+        public long UsuarioId { get; set; }
 
         public long CarroId { get; set; }
 

@@ -58,6 +58,7 @@ namespace LocadoraLocacaos.Services
             return _mapper.Map<IEnumerable<ResponseLocacaoDto>>(locacaos);
         }
 
+        //mudar create
         public async Task<ResponseLocacaoDto?> Create(CreateLocacaoDto dto)
         {
             var carro = await _carroRepository.GetById(dto.CarroId);
@@ -66,12 +67,12 @@ namespace LocadoraLocacaos.Services
                 throw new RegraNegocioException(
                     LocacaoErrors.CarroNaoEncontrado);
             //throw new NullReferenceException("Não existe Cliente com esse id");
-
+/*
             var cliente = await _clienteRepository.GetById(dto.ClienteId);
 
             if (cliente == null)
                 throw new RegraNegocioException(
-                    LocacaoErrors.ClienteNaoEncontrado);
+                    LocacaoErrors.ClienteNaoEncontrado);*/
 
             ValidarPeriodo(dto.DataInicio, dto.DataFim);
 
@@ -87,7 +88,9 @@ namespace LocadoraLocacaos.Services
             var locacao = _mapper.Map<Locacao>(dto);
 
             locacao.Status = StatusLocacao.Reservada;
-            locacao.Cliente = cliente;
+            locacao.UsuarioId = dto.UsuarioId;
+            //locacao.Cliente = cliente;
+            //TODO: MUDAR
             // Guarda o preço praticado no momento da locação.
             locacao.Carro = carro;
             AtualizarPrecoLocacao(locacao);

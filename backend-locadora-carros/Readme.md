@@ -1,8 +1,7 @@
 ﻿dotnet ef migrations add AddLocacao
-dotnet ef update database
 ef migration remove
 Update-Database
-
+dotnet ef migrations add update_locacao_usuario
 
 dotnet dev-certs https --check
 

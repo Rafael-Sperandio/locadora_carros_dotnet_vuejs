@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace LocadoraCarros.Model
 {
@@ -17,9 +18,12 @@ namespace LocadoraCarros.Model
         [StringLength(150)]
         public string Nome {  get; set; }
 
+
         [Column("email")]
-        [StringLength(350)]
+        [Required]
+        [StringLength(150)]
         public string Email { get; set; }
+
 
         [Column("telefone")]
         [Required]
@@ -28,5 +32,14 @@ namespace LocadoraCarros.Model
         //https://faq.whatsapp.com/1294841057948784/?locale=pt_BR
         public string Telefone { get; set; }
 
+        [Column("data_nascimento")]
+        public DateTime DataNascimento { get; set; }
+
+        [Column("cnh")]
+        [StringLength(40)]
+        public string CNH { get; set; }
+
+        [Column("validade_cnh")]
+        public DateTime validadeCNH { get; set; }
     }
 }

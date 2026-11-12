@@ -1,15 +1,15 @@
 ﻿using LocadoraCarros.Model.Base;
-using LocadoraCarros.Model;
 using System.ComponentModel.DataAnnotations.Schema;
 using LocadoraCarros.Models.Enums;
+using LocadoraCarrosBackEnd.Models.Identity;
 
 namespace LocadoraCarros.Models
 {
     [Table("locacao")]
     public class Locacao : BaseEntity
     {
-        [Column("cliente_id")]
-        public long ClienteId { get; set; }
+        [Column("usuario_id")]
+        public long UsuarioId { get; set; }
 
         [Column("carro_id")]
         public long CarroId { get; set; }
@@ -32,7 +32,7 @@ namespace LocadoraCarros.Models
         [Column("status")]
         public StatusLocacao Status { get; set; }
 
-        public Cliente Cliente { get; set; }
+        public ApplicationUser Usuario { get; set; }
 
         public Carro Carro { get; set; }
     }

@@ -1,13 +1,14 @@
 ﻿using LocadoraCarros.Data.Dtos.Carro;
 using LocadoraCarros.Model;
 using LocadoraCarros.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace LocadoraCarros.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]"), Authorize(Roles = "Admin")]
     public class CarroController: ControllerBase
     {
 
@@ -18,6 +19,7 @@ namespace LocadoraCarros.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             var carros = await _carroService.GetAll();
@@ -29,6 +31,7 @@ namespace LocadoraCarros.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(long id)
         {
             var carro = await _carroService.GetById(id);
@@ -40,6 +43,7 @@ namespace LocadoraCarros.Controllers
         }
 
         [HttpPost]
+
         public async Task<IActionResult> Post(CreateCarroDto model)
         {
             var carro = await _carroService.Create(model);

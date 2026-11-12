@@ -1,15 +1,21 @@
 ﻿using LocadoraCarros.Models;
+using LocadoraCarrosBackEnd.Models.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
 
 namespace LocadoraCarros.Model.Context
 {
-    public class MySQLContext : DbContext
+    public class MySQLContext : IdentityDbContext<
+        ApplicationUser,
+        IdentityRole<long>,
+        long>
     {
-        // MySQLContext() {}
-        public MySQLContext(DbContextOptions<MySQLContext> options): base(options)
+        public MySQLContext(
+            DbContextOptions<MySQLContext> options)
+            : base(options)
         {
-
         }
         public DbSet<Cliente> Clientes { get; set;}
 
@@ -19,17 +25,23 @@ namespace LocadoraCarros.Model.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cliente>().HasData(new Cliente
+            base.OnModelCreating(modelBuilder);
+
+/*            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(user => user.Usuario)
+                .WithOne()
+                .HasForeignKey<ApplicationUser>(user => user.UsuarioId)
+                .OnDelete(DeleteBehavior.Restrict);*/
+
+/*            modelBuilder.Entity<Cliente>().HasData(new Cliente
             {
                 id = 1,
                 Nome = "Moacir Carvalho",
                 Email= "moacir@teste.com",
                 Telefone= "+55 21 994132-XXXX"
-            });
+            });*/
 
         }
-        //*/
-
 
     }
 }

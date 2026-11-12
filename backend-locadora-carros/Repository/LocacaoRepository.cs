@@ -27,7 +27,7 @@ namespace LocadoraCarros.Repository
                 query = query.Include(l => l.Carro);
 
             if (includeCliente)
-                query = query.Include(l => l.Cliente);
+                query = query.Include(l => l.Usuario);
 
             return await query.ToListAsync();
         }
@@ -43,7 +43,7 @@ namespace LocadoraCarros.Repository
                 query = query.Include(l => l.Carro);
 
             if (includeCliente)
-                query = query.Include(l => l.Cliente);
+                query = query.Include(l => l.Usuario);
 
             return await query.FirstOrDefaultAsync(l => l.id == id);
         }
@@ -57,20 +57,20 @@ namespace LocadoraCarros.Repository
                 query = query.Include(l => l.Carro);
 
             if (includeCliente)
-                query = query.Include(l => l.Cliente);
+                query = query.Include(l => l.Usuario);
 
             return await query.ToListAsync();
         }
 
         public async Task<IEnumerable<Locacao>> GetByCliente(long clienteId, bool includeCarro = false, bool includeCliente = false)
         {
-            var query = _context.Locacoes.Where(l => l.ClienteId == clienteId).AsQueryable();
+            var query = _context.Locacoes.Where(l => l.UsuarioId == clienteId).AsQueryable();
 
             if (includeCarro)
                 query = query.Include(l => l.Carro);
 
             if (includeCliente)
-                query = query.Include(l => l.Cliente);
+                query = query.Include(l => l.Usuario);
 
             return await query.ToListAsync();
         }
